@@ -1,0 +1,45 @@
+{
+  "tabs": { "feed": "Feed", "bible": "Bible", "library": "Library", "hymns": "Hymns", "me": "Me" },
+  "feed": {
+    "forYou": "For You",
+    "following": "Following",
+    "search": "Search",
+    "parallelToggle": "Show second language",
+    "like": "Like",
+    "save": "Save",
+    "listen": "Listen",
+    "share": "Share",
+    "dataSaverMedia": "Data saver: tap to load video ({{size}})",
+    "loadError": "Couldn't load the feed.",
+    "retry": "Try again",
+    "empty": "Nothing here yet."
+  },
+  "onboarding": {
+    "step": "Step {{n}} / {{total}}",
+    "title": "Welcome. Choose your language.",
+    "subtitle": "You can change this anytime in Settings.",
+    "default": "Default",
+    "packs": "Download for offline use",
+    "continue": "Continue"
+  },
+  "langs": {
+    "sw": { "name": "Kiswahili", "sub": "Tanzania · Kenya · Uganda · DRC" },
+    "en": { "name": "English", "sub": "Second language / tafsiri ya pili" },
+    "fr": { "name": "Français", "sub": "DRC · Burundi · Rwanda" }
+  },
+  "packs": {
+    "bible-SUV": "Bible · SUV (text)",
+    "hymnal-NZK": "Nyimbo za Kristo",
+    "egw-sw-SC": "Steps to Christ · EGW"
+  },
+  "comingSoon": "Coming soon",
+  "me": {
+    "settings": "Settings",
+    "language": "Language",
+    "parallel": "Second language",
+    "dataSaver": "Data saver",
+    "on": "On",
+    "off": "Off",
+    "server": "Server"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "tabs": { "feed": "Mlisho", "bible": "Biblia", "library": "Maktaba", "hymns": "Nyimbo", "me": "Mimi" },
+  "feed": {
+    "forYou": "Kwa Ajili Yako",
+    "following": "Unazofuata",
+    "search": "Tafuta",
+    "parallelToggle": "Onyesha tafsiri ya pili",
+    "like": "Penda",
+    "save": "Hifadhi",
+    "listen": "Sikiliza",
+    "share": "Shiriki",
+    "dataSaverMedia": "Kuokoa data: gusa kupakua video ({{size}})",
+    "loadError": "Imeshindwa kupakia mlisho.",
+    "retry": "Jaribu tena",
+    "empty": "Hakuna maudhui bado."
+  },
+  "onboarding": {
+    "step": "Hatua {{n}} / {{total}}",
+    "title": "Karibu. Chagua lugha yako.",
+    "subtitle": "Unaweza kubadilisha wakati wowote kwenye Mipangilio.",
+    "default": "Chaguo-msingi",
+    "packs": "Pakua kwa matumizi bila mtandao",
+    "continue": "Endelea"
+  },
+  "langs": {
+    "sw": { "name": "Kiswahili", "sub": "Tanzania · Kenya · Uganda · DRC" },
+    "en": { "name": "English", "sub": "Tafsiri ya pili / second language" },
+    "fr": { "name": "Français", "sub": "RDC · Burundi · Rwanda" }
+  },
+  "packs": {
+    "bible-SUV": "Biblia · SUV (maandishi)",
+    "hymnal-NZK": "Nyimbo za Kristo",
+    "egw-sw-SC": "Njia Salama · EGW"
+  },
+  "comingSoon": "Inakuja hivi karibuni",
+  "me": {
+    "settings": "Mipangilio",
+    "language": "Lugha",
+    "parallel": "Tafsiri ya pili",
+    "dataSaver": "Kuokoa data",
+    "on": "Imewashwa",
+    "off": "Imezimwa",
+    "server": "Seva"
+  }
+}

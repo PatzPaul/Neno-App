@@ -1,0 +1,45 @@
+{
+  "tabs": { "feed": "Fil", "bible": "Bible", "library": "Bibliothèque", "hymns": "Cantiques", "me": "Moi" },
+  "feed": {
+    "forYou": "Pour vous",
+    "following": "Abonnements",
+    "search": "Rechercher",
+    "parallelToggle": "Afficher la deuxième langue",
+    "like": "J'aime",
+    "save": "Enregistrer",
+    "listen": "Écouter",
+    "share": "Partager",
+    "dataSaverMedia": "Économie de données : touchez pour charger la vidéo ({{size}})",
+    "loadError": "Impossible de charger le fil.",
+    "retry": "Réessayer",
+    "empty": "Rien pour l'instant."
+  },
+  "onboarding": {
+    "step": "Étape {{n}} / {{total}}",
+    "title": "Bienvenue. Choisissez votre langue.",
+    "subtitle": "Vous pouvez la changer à tout moment dans les Paramètres.",
+    "default": "Par défaut",
+    "packs": "Télécharger pour une utilisation hors ligne",
+    "continue": "Continuer"
+  },
+  "langs": {
+    "sw": { "name": "Kiswahili", "sub": "Tanzanie · Kenya · Ouganda · RDC" },
+    "en": { "name": "English", "sub": "Deuxième langue" },
+    "fr": { "name": "Français", "sub": "RDC · Burundi · Rwanda" }
+  },
+  "packs": {
+    "bible-SUV": "Bible · SUV (texte)",
+    "hymnal-NZK": "Nyimbo za Kristo",
+    "egw-sw-SC": "Le Meilleur Chemin · EGW"
+  },
+  "comingSoon": "Bientôt disponible",
+  "me": {
+    "settings": "Paramètres",
+    "language": "Langue",
+    "parallel": "Deuxième langue",
+    "dataSaver": "Économie de données",
+    "on": "Activé",
+    "off": "Désactivé",
+    "server": "Serveur"
+  }
+}
