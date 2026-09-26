@@ -47,6 +47,26 @@
             "usesCleartextTraffic": true
           }
         }
+      ],
+      "expo-secure-store",
+      [
+        "expo-audio",
+        {
+          "enableBackgroundPlayback": true,
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Neno hutumia mahali ulipo kukokotoa muda wa machweo ya Sabato. / Neno uses your location to calculate Sabbath sunset times."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#5980a6"
+        }
       ]
     ],
     "experiments": {

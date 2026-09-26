@@ -1,5 +1,11 @@
 {
-  "tabs": { "feed": "Mlisho", "bible": "Biblia", "library": "Maktaba", "hymns": "Nyimbo", "me": "Mimi" },
+  "tabs": {
+    "feed": "Mlisho",
+    "bible": "Biblia",
+    "library": "Maktaba",
+    "hymns": "Nyimbo",
+    "me": "Mimi"
+  },
   "feed": {
     "forYou": "Kwa Ajili Yako",
     "following": "Unazofuata",
@@ -23,9 +29,18 @@
     "continue": "Endelea"
   },
   "langs": {
-    "sw": { "name": "Kiswahili", "sub": "Tanzania · Kenya · Uganda · DRC" },
-    "en": { "name": "English", "sub": "Tafsiri ya pili / second language" },
-    "fr": { "name": "Français", "sub": "RDC · Burundi · Rwanda" }
+    "sw": {
+      "name": "Kiswahili",
+      "sub": "Tanzania · Kenya · Uganda · DRC"
+    },
+    "en": {
+      "name": "English",
+      "sub": "Tafsiri ya pili / second language"
+    },
+    "fr": {
+      "name": "Français",
+      "sub": "RDC · Burundi · Rwanda"
+    }
   },
   "packs": {
     "bible-SUV": "Biblia · SUV (maandishi)",
@@ -41,5 +56,19 @@
     "on": "Imewashwa",
     "off": "Imezimwa",
     "server": "Seva"
+  },
+  "common": {
+    "back": "Rudi",
+    "close": "Funga",
+    "cancel": "Ghairi",
+    "save": "Hifadhi",
+    "delete": "Futa",
+    "edit": "Hariri",
+    "loadError": "Imeshindwa kupakia.",
+    "offline": "Hakuna mtandao — unatumia maudhui yaliyopakuliwa",
+    "textSize": "Ukubwa wa maandishi",
+    "search": "Tafuta",
+    "more": "Zaidi",
+    "done": "Imekamilika"
   }
 }

@@ -89,6 +89,262 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/feed/{id}/like": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Like a feed item (idempotent) */
+        post: operations["likeFeedItem"];
+        /** Remove a like (idempotent) */
+        delete: operations["unlikeFeedItem"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/egw/books": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** EGW editions available in a language */
+        get: operations["listEgwBooks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/egw/{edition}/chapters/{n}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Paragraphs of one chapter, optionally aligned with another language by refcode */
+        get: operations["getEgwChapter"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/beliefs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The 28 Fundamental Beliefs (published texts only) */
+        get: operations["listBeliefs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/beliefs/{n}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One belief with its full text */
+        get: operations["getBelief"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/hymnals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Hymnals */
+        get: operations["listHymnals"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/hymnals/{code}/hymns": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Hymns of a hymnal, optionally filtered by number or title */
+        get: operations["listHymns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/hymnals/{code}/hymns/{number}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lyrics and audio of one hymn */
+        get: operations["getHymn"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/sabbath-school/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The lesson for the week containing `date` (default today) */
+        get: operations["getSabbathSchoolCurrent"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/courses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Published Bible study courses */
+        get: operations["listCourses"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/courses/{id}/lessons/{n}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One lesson with its quiz */
+        get: operations["getCourseLesson"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/courses/{id}/lessons/{n}/answers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Record a quiz answer; returns whether it was correct */
+        post: operations["answerQuiz"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Grouped full-text + fuzzy search */
+        get: operations["search"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Profile + settings (created on first call from the token claims) */
+        get: operations["getMe"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updateMe"];
+        trace?: never;
+    };
+    "/v1/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Push local changes, pull server changes since cursor (last-write-wins on updated_at) */
+        post: operations["sync"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -147,6 +403,7 @@ export interface components {
             audience?: string[];
             /** Format: date-time */
             publish_at: string;
+            like_count?: number;
         };
         FeedLink: {
             /** @enum {string} */
@@ -180,8 +437,249 @@ export interface components {
             chapter: number;
             verses: components["schemas"]["Verse"][];
         };
+        LikeState: {
+            liked: boolean;
+            like_count: number;
+        };
+        EgwBook: {
+            edition_id: number;
+            /** @example SC */
+            book_code: string;
+            lang: string;
+            /** @example Njia Salama */
+            title: string;
+            /** @example Steps to Christ */
+            original_title: string;
+            chapters: number;
+        };
+        EgwParagraph: {
+            /** @example SC 9.1 */
+            refcode: string;
+            ord: number;
+            page?: number;
+            text: string;
+            parallel_text?: string;
+        };
+        EgwChapter: {
+            edition_id: number;
+            book_code: string;
+            title: string;
+            chapter: number;
+            /** @description Total chapters in the edition */
+            chapters: number;
+            chapter_title?: string;
+            parallel_lang?: string;
+            paragraphs: components["schemas"]["EgwParagraph"][];
+        };
+        Belief: {
+            n: number;
+            /** @enum {string} */
+            group_key: "god" | "humanity" | "salvation" | "church" | "christian_life" | "last_things";
+            title: string;
+            /** @description Present on GET /v1/beliefs/{n} */
+            body?: string;
+        };
+        Hymnal: {
+            code: string;
+            lang: string;
+            name: string;
+        };
+        HymnSummary: {
+            number: number;
+            title: string;
+            original_title?: string;
+            category?: string;
+            has_audio: boolean;
+        };
+        HymnStanza: {
+            idx: number;
+            /** @enum {string} */
+            kind: "verse" | "refrain";
+            text: string;
+        };
+        Hymn: {
+            hymnal: string;
+            number: number;
+            title: string;
+            original_title?: string;
+            category?: string;
+            stanzas: components["schemas"]["HymnStanza"][];
+            audio_choir?: components["schemas"]["Media"];
+            audio_piano?: components["schemas"]["Media"];
+        };
+        SabbathSchoolDay: {
+            /** @description 0 = Sabbath … 6 = Friday */
+            day_idx: number;
+            /** Format: date */
+            date?: string;
+            title: string;
+            body: string;
+            question?: string;
+            audio?: components["schemas"]["Media"];
+        };
+        SabbathSchoolWeek: {
+            year: number;
+            quarter: number;
+            quarter_title: string;
+            lesson_n: number;
+            lesson_title: string;
+            /**
+             * Format: date
+             * @description The Sabbath that starts the week
+             */
+            week_start: string;
+            memory_ref?: string;
+            memory_text?: string;
+            days: components["schemas"]["SabbathSchoolDay"][];
+        };
+        Course: {
+            id: number;
+            slug: string;
+            title: string;
+            audience: string[];
+            lessons: number;
+        };
+        QuizOption: {
+            id: number;
+            label: string;
+            /** @description Sent to the client so the quiz works offline with immediate feedback. */
+            is_correct: boolean;
+        };
+        QuizQuestion: {
+            id: number;
+            prompt: string;
+            /** @example DAN.7.17 */
+            explain_ref?: string;
+            explain_text?: string;
+            options: components["schemas"]["QuizOption"][];
+        };
+        CourseLesson: {
+            course_id: number;
+            course_title: string;
+            n: number;
+            total: number;
+            title: string;
+            body: string;
+            image?: components["schemas"]["Media"];
+            questions: components["schemas"]["QuizQuestion"][];
+        };
+        /** @enum {string} */
+        SearchScope: "bible" | "egw" | "beliefs" | "hymns" | "video";
+        SearchHit: {
+            /** @example Kutoka 20:8 */
+            title: string;
+            snippet: string;
+            /** @enum {string} */
+            target: "verse" | "egw_paragraph" | "belief" | "hymn" | "feed_item";
+            /** @description OSIS ref, refcode, belief n, HYMNAL/number, or feed item id */
+            target_ref: string;
+        };
+        SearchResults: {
+            groups: {
+                scope: components["schemas"]["SearchScope"];
+                hits: components["schemas"]["SearchHit"][];
+            }[];
+        };
+        /** @description The caller's profile. Identity comes from the Keycloak `neno` realm; `id` is the token's `sub`. */
+        Me: {
+            /** Format: uuid */
+            id: string;
+            email?: string;
+            phone?: string;
+            display_name?: string;
+            church?: string;
+            /** @enum {string} */
+            role: "member" | "editor" | "reviewer" | "admin";
+            ui_lang: string;
+            parallel_lang?: string;
+            bible_translation: string;
+            text_scale: number;
+            data_saver: boolean;
+            sunset_city?: string;
+            sunset_lat?: number;
+            sunset_lng?: number;
+        };
+        /** @description Only provided fields change. Send an empty string for parallel_lang / sunset_city to clear them. */
+        MePatch: {
+            display_name?: string;
+            church?: string;
+            ui_lang?: string;
+            parallel_lang?: string;
+            bible_translation?: string;
+            text_scale?: number;
+            data_saver?: boolean;
+            sunset_city?: string;
+            sunset_lat?: number;
+            sunset_lng?: number;
+        };
+        /** @enum {string} */
+        TargetKind: "verse" | "egw_paragraph" | "belief" | "hymn" | "feed_item" | "ss_day" | "course_lesson";
+        UserMark: {
+            /**
+             * Format: uuid
+             * @description Client-generated
+             */
+            id: string;
+            /** @enum {string} */
+            kind: "highlight" | "note" | "save" | "like";
+            target: components["schemas"]["TargetKind"];
+            target_ref: string;
+            color?: string;
+            note?: string;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            /** Format: date-time */
+            deleted_at?: string;
+        };
+        UserAnswer: {
+            /** Format: uuid */
+            id: string;
+            target: components["schemas"]["TargetKind"];
+            /** @description ss_day id or course_lesson question id */
+            target_ref: string;
+            answer?: string;
+            option_id?: number;
+            /** Format: date-time */
+            updated_at: string;
+            /** Format: date-time */
+            deleted_at?: string;
+        };
+        UserProgress: {
+            target: components["schemas"]["TargetKind"];
+            /** @description e.g. EGW edition id, course id */
+            target_ref: string;
+            /** @description e.g. last refcode or lesson n */
+            position?: string;
+            percent?: number;
+            /** Format: date-time */
+            updated_at: string;
+        };
+        SyncRequest: {
+            /** @description From the previous SyncResponse; omit for a full pull. */
+            cursor?: string;
+            marks?: components["schemas"]["UserMark"][];
+            answers?: components["schemas"]["UserAnswer"][];
+            progress?: components["schemas"]["UserProgress"][];
+        };
+        SyncResponse: {
+            cursor: string;
+            marks: components["schemas"]["UserMark"][];
+            answers: components["schemas"]["UserAnswer"][];
+            progress: components["schemas"]["UserProgress"][];
+        };
     };
     responses: {
+        /** @description Missing or invalid access token */
+        Unauthorized: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["Error"];
+            };
+        };
         /** @description Invalid request */
         BadRequest: {
             headers: {
@@ -202,6 +700,7 @@ export interface components {
         };
     };
     parameters: {
+        FeedId: string;
         /** @description BCP 47 language (sw, en, fr). Defaults to sw. */
         Lang: string;
     };
@@ -345,6 +844,444 @@ export interface operations {
                 };
             };
             404: components["responses"]["NotFound"];
+        };
+    };
+    likeFeedItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: components["parameters"]["FeedId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description New like state */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LikeState"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    unlikeFeedItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: components["parameters"]["FeedId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description New like state */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LikeState"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    listEgwBooks: {
+        parameters: {
+            query?: {
+                /** @description BCP 47 language (sw, en, fr). Defaults to sw. */
+                lang?: components["parameters"]["Lang"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Editions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        books: components["schemas"]["EgwBook"][];
+                    };
+                };
+            };
+            400: components["responses"]["BadRequest"];
+        };
+    };
+    getEgwChapter: {
+        parameters: {
+            query?: {
+                /** @description Language whose edition of the same book to align (by refcode). */
+                parallel?: string;
+            };
+            header?: never;
+            path: {
+                edition: number;
+                n: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The chapter */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EgwChapter"];
+                };
+            };
+            404: components["responses"]["NotFound"];
+        };
+    };
+    listBeliefs: {
+        parameters: {
+            query?: {
+                /** @description BCP 47 language (sw, en, fr). Defaults to sw. */
+                lang?: components["parameters"]["Lang"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Beliefs in order */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        beliefs: components["schemas"]["Belief"][];
+                    };
+                };
+            };
+            400: components["responses"]["BadRequest"];
+        };
+    };
+    getBelief: {
+        parameters: {
+            query?: {
+                /** @description BCP 47 language (sw, en, fr). Defaults to sw. */
+                lang?: components["parameters"]["Lang"];
+            };
+            header?: never;
+            path: {
+                n: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The belief */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Belief"];
+                };
+            };
+            404: components["responses"]["NotFound"];
+        };
+    };
+    listHymnals: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Hymnals */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        hymnals: components["schemas"]["Hymnal"][];
+                    };
+                };
+            };
+        };
+    };
+    listHymns: {
+        parameters: {
+            query?: {
+                /** @description Number (exact) or title (fuzzy). */
+                q?: string;
+            };
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Hymns by number */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        hymns: components["schemas"]["HymnSummary"][];
+                    };
+                };
+            };
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getHymn: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The hymn */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Hymn"];
+                };
+            };
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getSabbathSchoolCurrent: {
+        parameters: {
+            query?: {
+                /** @description BCP 47 language (sw, en, fr). Defaults to sw. */
+                lang?: components["parameters"]["Lang"];
+                date?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current lesson */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SabbathSchoolWeek"];
+                };
+            };
+            404: components["responses"]["NotFound"];
+        };
+    };
+    listCourses: {
+        parameters: {
+            query?: {
+                /** @description BCP 47 language (sw, en, fr). Defaults to sw. */
+                lang?: components["parameters"]["Lang"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Courses */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        courses: components["schemas"]["Course"][];
+                    };
+                };
+            };
+            400: components["responses"]["BadRequest"];
+        };
+    };
+    getCourseLesson: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                n: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The lesson */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CourseLesson"];
+                };
+            };
+            404: components["responses"]["NotFound"];
+        };
+    };
+    answerQuiz: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                n: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    question_id: number;
+                    option_id: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        correct: boolean;
+                        correct_option_id: number;
+                    };
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    search: {
+        parameters: {
+            query: {
+                q: string;
+                /** @description BCP 47 language (sw, en, fr). Defaults to sw. */
+                lang?: components["parameters"]["Lang"];
+                /** @description Limit to one group. */
+                scope?: components["schemas"]["SearchScope"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Results */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchResults"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+        };
+    };
+    getMe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Profile + settings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Me"];
+                };
+            };
+            401: components["responses"]["Unauthorized"];
+        };
+    };
+    updateMe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MePatch"];
+            };
+        };
+        responses: {
+            /** @description Updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Me"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+        };
+    };
+    sync: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SyncRequest"];
+            };
+        };
+        responses: {
+            /** @description Server changes */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SyncResponse"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
         };
     };
 }

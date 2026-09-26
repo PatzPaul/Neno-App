@@ -34,27 +34,3 @@ export const useSettings = create<Settings>()(
     { name: 'settings', storage: syncStorage, version: 1 },
   ),
 );
-
-type Marks = {
-  liked: Record<string, true>;
-  saved: Record<string, true>;
-  toggle: (kind: 'liked' | 'saved', id: string) => void;
-};
-
-// Optimistic local marks; synced via POST /v1/sync once the outbox lands.
-export const useMarks = create<Marks>()(
-  persist(
-    (set) => ({
-      liked: {},
-      saved: {},
-      toggle: (kind, id) =>
-        set((s) => {
-          const next = { ...s[kind] };
-          if (next[id]) delete next[id];
-          else next[id] = true;
-          return { [kind]: next };
-        }),
-    }),
-    { name: 'marks', storage: syncStorage, version: 1 },
-  ),
-);

@@ -8,7 +8,7 @@ import type { FeedItem } from '@/api/client';
 import { formatBytes } from '@/api/queries';
 import { Blueprint } from '@/components/Blueprint';
 import { PrimaryButton, Stripes, Tag } from '@/components/ui';
-import { useMarks } from '@/store/settings';
+import { findLiveMark, useUserData } from '@/store/userData';
 import { color, font, hit, icon, tracking, type } from '@/theme';
 
 type Props = { item: FeedItem; height: number; showParallel: boolean; dataSaver: boolean };
@@ -24,9 +24,11 @@ const CTA_ROUTES: Record<string, Href> = {
 
 export const FeedItemView = memo(function FeedItemView({ item, height, showParallel, dataSaver }: Props) {
   const { t } = useTranslation();
-  const liked = useMarks((s) => !!s.liked[item.id]);
-  const saved = useMarks((s) => !!s.saved[item.id]);
-  const toggle = useMarks((s) => s.toggle);
+  const like = useUserData((s) => findLiveMark(s.marks, 'like', 'feed_item', item.id));
+  const saved = useUserData((s) => !!findLiveMark(s.marks, 'save', 'feed_item', item.id));
+  const toggle = useUserData((s) => s.toggleMark);
+  // Server count plus our like while it is still in the outbox.
+  const likeCount = (item.like_count ?? 0) + (like?.dirty ? 1 : 0);
 
   const cta = item.cta_label && item.cta_target ? CTA_ROUTES[item.cta_target.split(':')[0]] : undefined;
   const share = () => Share.share({ message: [item.body, item.ref_label].filter(Boolean).join('\n— ') });
@@ -67,8 +69,8 @@ export const FeedItemView = memo(function FeedItemView({ item, height, showParal
       {cta ? <PrimaryButton label={item.cta_label!} onPress={() => router.navigate(cta)} style={styles.cta} /> : null}
 
       <View style={styles.rail}>
-        <RailButton Icon={Heart} label={t('feed.like')} active={liked} onPress={() => toggle('liked', item.id)} />
-        <RailButton Icon={Bookmark} label={t('feed.save')} active={saved} onPress={() => toggle('saved', item.id)} />
+        <RailButton Icon={Heart} label={likeCount > 0 ? String(likeCount) : t('feed.like')} a11yLabel={t('feed.like')} active={!!like} onPress={() => toggle('like', 'feed_item', item.id)} />
+        <RailButton Icon={Bookmark} label={t('feed.save')} active={saved} onPress={() => toggle('save', 'feed_item', item.id)} />
         {item.media?.kind === 'audio' ? <RailButton Icon={Headphones} label={t('feed.listen')} /> : null}
         <RailButton Icon={Share2} label={t('feed.share')} onPress={share} />
       </View>
@@ -76,12 +78,12 @@ export const FeedItemView = memo(function FeedItemView({ item, height, showParal
   );
 });
 
-function RailButton({ Icon, label, active, onPress }: { Icon: LucideIcon; label: string; active?: boolean; onPress?: () => void }) {
+function RailButton({ Icon, label, a11yLabel, active, onPress }: { Icon: LucideIcon; label: string; a11yLabel?: string; active?: boolean; onPress?: () => void }) {
   const tint = active ? color.accent : color.text;
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={label}
+      accessibilityLabel={a11yLabel ?? label}
       accessibilityState={active === undefined ? undefined : { selected: active }}
       onPress={onPress}
       style={({ pressed }) => [styles.railBtn, pressed && { opacity: 0.6 }]}>

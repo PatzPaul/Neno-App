@@ -1,5 +1,11 @@
 {
-  "tabs": { "feed": "Feed", "bible": "Bible", "library": "Library", "hymns": "Hymns", "me": "Me" },
+  "tabs": {
+    "feed": "Feed",
+    "bible": "Bible",
+    "library": "Library",
+    "hymns": "Hymns",
+    "me": "Me"
+  },
   "feed": {
     "forYou": "For You",
     "following": "Following",
@@ -23,9 +29,18 @@
     "continue": "Continue"
   },
   "langs": {
-    "sw": { "name": "Kiswahili", "sub": "Tanzania · Kenya · Uganda · DRC" },
-    "en": { "name": "English", "sub": "Second language / tafsiri ya pili" },
-    "fr": { "name": "Français", "sub": "DRC · Burundi · Rwanda" }
+    "sw": {
+      "name": "Kiswahili",
+      "sub": "Tanzania · Kenya · Uganda · DRC"
+    },
+    "en": {
+      "name": "English",
+      "sub": "Second language / tafsiri ya pili"
+    },
+    "fr": {
+      "name": "Français",
+      "sub": "DRC · Burundi · Rwanda"
+    }
   },
   "packs": {
     "bible-SUV": "Bible · SUV (text)",
@@ -41,5 +56,19 @@
     "on": "On",
     "off": "Off",
     "server": "Server"
+  },
+  "common": {
+    "back": "Back",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loadError": "Couldn't load this.",
+    "offline": "No connection — using downloaded content",
+    "textSize": "Text size",
+    "search": "Search",
+    "more": "More",
+    "done": "Done"
   }
 }

@@ -1,5 +1,11 @@
 {
-  "tabs": { "feed": "Fil", "bible": "Bible", "library": "Bibliothèque", "hymns": "Cantiques", "me": "Moi" },
+  "tabs": {
+    "feed": "Fil",
+    "bible": "Bible",
+    "library": "Bibliothèque",
+    "hymns": "Cantiques",
+    "me": "Moi"
+  },
   "feed": {
     "forYou": "Pour vous",
     "following": "Abonnements",
@@ -23,9 +29,18 @@
     "continue": "Continuer"
   },
   "langs": {
-    "sw": { "name": "Kiswahili", "sub": "Tanzanie · Kenya · Ouganda · RDC" },
-    "en": { "name": "English", "sub": "Deuxième langue" },
-    "fr": { "name": "Français", "sub": "RDC · Burundi · Rwanda" }
+    "sw": {
+      "name": "Kiswahili",
+      "sub": "Tanzanie · Kenya · Ouganda · RDC"
+    },
+    "en": {
+      "name": "English",
+      "sub": "Deuxième langue"
+    },
+    "fr": {
+      "name": "Français",
+      "sub": "RDC · Burundi · Rwanda"
+    }
   },
   "packs": {
     "bible-SUV": "Bible · SUV (texte)",
@@ -41,5 +56,19 @@
     "on": "Activé",
     "off": "Désactivé",
     "server": "Serveur"
+  },
+  "common": {
+    "back": "Retour",
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "loadError": "Impossible de charger.",
+    "offline": "Hors ligne — contenu téléchargé",
+    "textSize": "Taille du texte",
+    "search": "Rechercher",
+    "more": "Plus",
+    "done": "Terminé"
   }
 }

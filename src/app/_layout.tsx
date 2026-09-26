@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 
 import i18n from '@/i18n';
 import { useSettings } from '@/store/settings';
+import { useSync } from '@/sync/useSync';
 import { color } from '@/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -23,6 +24,7 @@ export default function RootLayout() {
   });
   const onboarded = useSettings((s) => s.onboarded);
   const uiLang = useSettings((s) => s.uiLang);
+  useSync();
 
   useEffect(() => {
     if (i18n.language !== uiLang) i18n.changeLanguage(uiLang);
