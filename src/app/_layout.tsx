@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
+import { PlayerProvider } from '@/audio/PlayerProvider';
 import i18n from '@/i18n';
 import { useSettings } from '@/store/settings';
 import { useSync } from '@/sync/useSync';
@@ -38,15 +39,17 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: color.bg } }}>
-        <Stack.Protected guard={!onboarded}>
-          <Stack.Screen name="onboarding" />
-        </Stack.Protected>
-        <Stack.Protected guard={onboarded}>
-          <Stack.Screen name="(tabs)" />
-        </Stack.Protected>
-      </Stack>
+      <PlayerProvider>
+        <StatusBar style="dark" />
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: color.bg } }}>
+          <Stack.Protected guard={!onboarded}>
+            <Stack.Screen name="onboarding" />
+          </Stack.Protected>
+          <Stack.Protected guard={onboarded}>
+            <Stack.Screen name="(tabs)" />
+          </Stack.Protected>
+        </Stack>
+      </PlayerProvider>
     </QueryClientProvider>
   );
 }

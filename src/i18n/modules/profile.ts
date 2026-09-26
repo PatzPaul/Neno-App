@@ -1,6 +1,51 @@
-// Strings for the profile feature. Swahili first; keep keys identical across languages.
+// Strings for the profile feature (Mimi). Swahili first; keep keys identical across languages.
 export default {
-  sw: { profile: {} },
-  en: { profile: {} },
-  fr: { profile: {} },
+  sw: {
+    profile: {
+      syncTitle: 'Hifadhi maendeleo yako',
+      syncBody: 'Ingia ili angazo, maelezo na maendeleo yako yahifadhiwe na kupatikana kwenye kila kifaa chako.',
+      streak: 'siku mfululizo za kusoma',
+      saved: 'Vilivyohifadhiwa',
+      seeAll: 'Tazama maelezo na angazo',
+      noSaved: 'Bado hujahifadhi chochote.',
+      textScale: 'Ukubwa wa maandishi',
+      smaller: 'Punguza maandishi',
+      larger: 'Ongeza maandishi',
+      sunset: 'Machweo ya Sabato',
+      downloads: 'Upakuaji',
+      downloadsSoon: 'Inakuja',
+    },
+  },
+  en: {
+    profile: {
+      syncTitle: 'Keep your progress',
+      syncBody: 'Log in so your highlights, notes and progress are saved and available on every device.',
+      streak: 'days reading in a row',
+      saved: 'Saved',
+      seeAll: 'See notes & highlights',
+      noSaved: "You haven't saved anything yet.",
+      textScale: 'Text size',
+      smaller: 'Smaller text',
+      larger: 'Larger text',
+      sunset: 'Sabbath sunset',
+      downloads: 'Downloads',
+      downloadsSoon: 'Coming soon',
+    },
+  },
+  fr: {
+    profile: {
+      syncTitle: 'Gardez votre progression',
+      syncBody: 'Connectez-vous pour que vos surlignages, notes et progrès soient enregistrés sur tous vos appareils.',
+      streak: 'jours de lecture d’affilée',
+      saved: 'Enregistrés',
+      seeAll: 'Voir notes et surlignages',
+      noSaved: 'Rien d’enregistré pour l’instant.',
+      textScale: 'Taille du texte',
+      smaller: 'Texte plus petit',
+      larger: 'Texte plus grand',
+      sunset: 'Coucher du soleil du sabbat',
+      downloads: 'Téléchargements',
+      downloadsSoon: 'Bientôt',
+    },
+  },
 };

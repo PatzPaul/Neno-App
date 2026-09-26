@@ -1,6 +1,69 @@
-// Strings for the hymns feature. Swahili first; keep keys identical across languages.
+// Strings for the hymns feature (hymnal list, lyrics, audio player). Swahili first; keep keys identical.
 export default {
-  sw: { hymns: {} },
-  en: { hymns: {} },
-  fr: { hymns: {} },
+  sw: {
+    hymns: {
+      title: 'Nyimbo',
+      searchPlaceholder: 'Tafuta kwa namba au jina',
+      voiceSearch: 'Tafuta kwa sauti',
+      hasAudio: 'Ina sauti',
+      noResults: 'Hakuna wimbo uliopatikana.',
+      verse: 'Ubeti {{n}}',
+      refrain: 'Kiitikio',
+      audio: 'Sauti',
+      choir: 'Kwaya',
+      piano: 'Piano tu',
+      silent: 'Bila sauti',
+      noAudio: 'Hakuna sauti ya aina hii kwa wimbo huu.',
+      player: {
+        play: 'Cheza',
+        pause: 'Simamisha',
+        loading: 'Inapakia…',
+        unavailable: 'Sauti haipatikani',
+      },
+    },
+  },
+  en: {
+    hymns: {
+      title: 'Hymns',
+      searchPlaceholder: 'Search by number or title',
+      voiceSearch: 'Voice search',
+      hasAudio: 'Has audio',
+      noResults: 'No hymns found.',
+      verse: 'Verse {{n}}',
+      refrain: 'Refrain',
+      audio: 'Audio',
+      choir: 'Choir',
+      piano: 'Piano only',
+      silent: 'No audio',
+      noAudio: 'No audio of this kind for this hymn.',
+      player: {
+        play: 'Play',
+        pause: 'Pause',
+        loading: 'Loading…',
+        unavailable: 'Audio unavailable',
+      },
+    },
+  },
+  fr: {
+    hymns: {
+      title: 'Cantiques',
+      searchPlaceholder: 'Rechercher par numéro ou titre',
+      voiceSearch: 'Recherche vocale',
+      hasAudio: 'Avec audio',
+      noResults: 'Aucun cantique trouvé.',
+      verse: 'Strophe {{n}}',
+      refrain: 'Refrain',
+      audio: 'Audio',
+      choir: 'Chorale',
+      piano: 'Piano seul',
+      silent: 'Sans audio',
+      noAudio: 'Pas d’audio de ce type pour ce cantique.',
+      player: {
+        play: 'Lire',
+        pause: 'Pause',
+        loading: 'Chargement…',
+        unavailable: 'Audio indisponible',
+      },
+    },
+  },
 };
