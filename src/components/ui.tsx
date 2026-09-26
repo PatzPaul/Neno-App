@@ -43,6 +43,26 @@ export function PrimaryButton({ label, onPress, size = 'md', style, disabled }: 
   );
 }
 
+/** Secondary button: hairline outline, text-tinted press states (7% / 14%). */
+export function SecondaryButton({ label, onPress, style, disabled, Icon }: ButtonProps & { Icon?: import('lucide-react-native').LucideIcon }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      disabled={disabled}
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.btn,
+        styles.secondary,
+        { minHeight: hit.min, backgroundColor: pressed ? 'rgba(29,31,32,0.14)' : 'transparent' },
+        disabled && { opacity: 0.45 },
+        style,
+      ]}>
+      {Icon ? <Icon size={16} strokeWidth={1.5} color={color.text} /> : null}
+      <Text style={[styles.btnText, { fontSize: 16, color: color.text }]}>{label}</Text>
+    </Pressable>
+  );
+}
+
 /** Square 44×26 switch from the Sabbath reminder row. */
 export function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
   return (
@@ -86,6 +106,7 @@ const styles = StyleSheet.create({
   tag: { paddingVertical: 3, paddingHorizontal: 10, alignSelf: 'flex-start' },
   tagText: { fontFamily: font.body, fontSize: 11, letterSpacing: 0.22 },
   btn: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18 },
+  secondary: { flexDirection: 'row', gap: 6, borderWidth: 1, borderColor: color.divider },
   btnText: { fontFamily: font.heading, color: color.bg },
   toggle: { width: 44, height: 26, borderWidth: 1, padding: 3, flexDirection: 'row', alignItems: 'center' },
   knob: { width: 18, height: 18 },

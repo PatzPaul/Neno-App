@@ -72,6 +72,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/bible/{translation}/books": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Books of a translation with chapter counts, names in the translation's language */
+        get: operations["listBibleBooks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/bible/{translation}/{book}/{chapter}": {
         parameters: {
             query?: never;
@@ -573,6 +590,10 @@ export interface components {
             target: "verse" | "egw_paragraph" | "belief" | "hymn" | "feed_item";
             /** @description OSIS ref, refcode, belief n, HYMNAL/number, or feed item id */
             target_ref: string;
+            /** @description EGW hits: edition to open */
+            edition_id?: number;
+            /** @description EGW hits: chapter containing the paragraph */
+            chapter?: number;
         };
         SearchResults: {
             groups: {
@@ -668,6 +689,19 @@ export interface components {
             marks: components["schemas"]["UserMark"][];
             answers: components["schemas"]["UserAnswer"][];
             progress: components["schemas"]["UserProgress"][];
+        };
+        BibleBook: {
+            /** @example JHN */
+            osis: string;
+            ord: number;
+            /** @enum {string} */
+            testament: "OT" | "NT";
+            /** @example Yohana */
+            name: string;
+            /** @example Yn */
+            abbr?: string;
+            /** @description Chapters with text in this translation (0 when none yet) */
+            chapters: number;
         };
     };
     responses: {
@@ -812,6 +846,32 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["FeedItemDetail"];
+                };
+            };
+            404: components["responses"]["NotFound"];
+        };
+    };
+    listBibleBooks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                translation: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Books in canonical order */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        translation: string;
+                        books: components["schemas"]["BibleBook"][];
+                    };
                 };
             };
             404: components["responses"]["NotFound"];

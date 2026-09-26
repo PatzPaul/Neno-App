@@ -20,6 +20,7 @@ const CTA_ROUTES: Record<string, Href> = {
   course_lesson: '/maktaba',
   egw_paragraph: '/maktaba',
   belief: '/maktaba',
+  ss_day: '/sabbath-school',
 };
 
 export const FeedItemView = memo(function FeedItemView({ item, height, showParallel, dataSaver }: Props) {

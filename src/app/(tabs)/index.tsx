@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { Search } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -72,9 +73,9 @@ export default function FeedScreen() {
               {showParallel ? ` + ${parallelLang!.toUpperCase()}` : ''}
             </Text>
           </Pressable>
-          <View accessibilityLabel={t('feed.search')} style={styles.headerIcon}>
+          <Pressable accessibilityRole="button" accessibilityLabel={t('feed.search')} onPress={() => router.push('/search')} style={styles.headerIcon}>
             <Search size={icon.rail} strokeWidth={icon.strokeWidth} color={color.text} />
-          </View>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -105,5 +106,5 @@ const styles = StyleSheet.create({
   langChip: { marginLeft: 'auto', borderWidth: 1, borderColor: color.divider, paddingVertical: 2, paddingHorizontal: 6 },
   langChipOn: { borderColor: color.accent },
   langChipText: { fontFamily: font.body, fontSize: 11, color: color.text },
-  headerIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center' },
+  headerIcon: { width: 44, height: 44, marginVertical: -8, alignItems: 'center', justifyContent: 'center' },
 });
