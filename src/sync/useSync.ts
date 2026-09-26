@@ -46,6 +46,10 @@ export function useSync() {
     void syncNow();
     const unsub = useUserData.subscribe((s, prev) => {
       if (s.marks === prev.marks && s.answers === prev.answers && s.progress === prev.progress) return;
+      // applySync also replaces these objects; only local edits (dirty rows) should schedule a push,
+      // otherwise every sync round would trigger the next one.
+      const d = dirtyRows(s);
+      if (d.marks.length + d.answers.length + d.progress.length === 0) return;
       if (timer.current) clearTimeout(timer.current);
       timer.current = setTimeout(() => void syncNow(), DEBOUNCE_MS);
     });
