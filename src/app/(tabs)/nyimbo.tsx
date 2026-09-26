@@ -31,7 +31,14 @@ export default function HymnsScreen() {
   }, [text]);
 
   const hymns = useHymns(code, q || undefined);
-  const options = useMemo(() => (hymnals.data ?? []).map((h) => ({ value: h.code, label: h.name })), [hymnals.data]);
+  // Hymnals in the UI language come first (design: "Nyimbo za Kristo | SDA Hymnal").
+  const options = useMemo(
+    () =>
+      [...(hymnals.data ?? [])]
+        .sort((a, b) => Number(b.lang === uiLang) - Number(a.lang === uiLang))
+        .map((h) => ({ value: h.code, label: h.name })),
+    [hymnals.data, uiLang],
+  );
 
   return (
     <View style={[styles.screen, { paddingTop: insets.top }]}>

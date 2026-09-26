@@ -21,6 +21,17 @@ design specs `../Neno/docs/design/README.md`, contract `../Neno/api/openapi.yaml
 - `EXPO_PUBLIC_API_URL` in `.env` → `http://159.65.58.51:8090` (plain HTTP for now). app.json allows cleartext
   (Android `usesCleartextTraffic`, iOS `NSAllowsArbitraryLoads`) — remove both once the API is on HTTPS.
 
+## Offline & sync
+- Packs (`src/packs/`): manifest `GET /v1/packs`, files `GET /packs/<slug>-v<n>.sqlite`, verified by sha256, stored in
+  documents/packs. Readers in `src/packs/local.ts` match the pack schemas documented in `../Neno/CLAUDE.md`.
+  Bible/EGW read pack-first; hymns read network-first (audio URLs) with pack fallback. Web has no packs.
+- User data (`src/store/userData.ts`): marks/answers/progress with `dirty` outbox; `src/sync/useSync.ts` pushes/pulls
+  `POST /v1/sync` when logged in (Keycloak PKCE via `src/auth/session.ts`, realm `neno`, client `neno-app`).
+
+## EAS
+- Project `@patzpaul/neno`, app id `com.patzpaul.neno`, profiles in `eas.json` (development / preview / production,
+  channels of the same name). `runtimeVersion` policy `appVersion`: bump `version` when native deps change.
+- `npx eas-cli update --channel development -m "…"` ships JS to dev builds. iOS builds need interactive Apple credentials.
+
 ## Not built yet
-Offline packs download + SQLite reads, sync outbox, audio/video playback, Biblia/Maktaba/Nyimbo screens,
-onboarding steps 2–3, search, 1b/1c feed variants, EAS project config (`eas init`).
+Onboarding steps 2–3, 1b/1c feed variants, voice search, chapter audio for the Bible reader, video playback.
