@@ -5,6 +5,7 @@ import en from './en.json';
 import fr from './fr.json';
 import auth from './modules/auth';
 import bible from './modules/bible';
+import downloads from './modules/downloads';
 import hymns from './modules/hymns';
 import library from './modules/library';
 import notes from './modules/notes';
@@ -18,7 +19,7 @@ export type UiLang = (typeof UI_LANGS)[number];
 
 type Module = Record<UiLang, Record<string, unknown>>;
 // Each feature owns a module file (src/i18n/modules/*.ts) under its own top-level key.
-const modules: Module[] = [auth, bible, hymns, library, notes, profile, search, sunset];
+const modules: Module[] = [auth, bible, downloads, hymns, library, notes, profile, search, sunset];
 
 const build = (lang: UiLang, base: Record<string, unknown>) =>
   modules.reduce<Record<string, unknown>>((acc, m) => ({ ...acc, ...m[lang] }), { ...base });

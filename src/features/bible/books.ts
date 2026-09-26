@@ -1,13 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { apiGet, type Schemas } from '@/api/client';
+import { localBibleBooks } from '@/packs/local';
 
 export type BibleBook = Schemas['BibleBook'];
 
 export function useBibleBooks(translation: string) {
   return useQuery({
     queryKey: ['bible-books', translation],
-    queryFn: () => apiGet<{ translation: string; books: BibleBook[] }>(`/v1/bible/${translation}/books`),
+    queryFn: async () => {
+      const local = localBibleBooks(translation);
+      return local ? { translation, books: local } : apiGet<{ translation: string; books: BibleBook[] }>(`/v1/bible/${translation}/books`);
+    },
     select: (d) => d.books,
     staleTime: 24 * 60 * 60_000,
   });

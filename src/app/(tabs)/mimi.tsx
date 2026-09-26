@@ -114,9 +114,9 @@ export default function MeScreen() {
         <SettingRow label={t('me.dataSaver')}>
           <Toggle label={t('me.dataSaver')} value={dataSaver} onChange={(v) => set({ dataSaver: v })} />
         </SettingRow>
-        <SettingRow label={t('profile.downloads')}>
-          <Text style={[styles.rowValue, { color: color.neutral600 }]}>{t('profile.downloadsSoon')}</Text>
-        </SettingRow>
+        <ListRow height={48} onPress={() => router.push('/downloads')}>
+          <Text style={styles.rowLabel}>{t('profile.downloads')}</Text>
+        </ListRow>
         <SettingRow label={t('me.server')}>
           <Text style={[styles.rowValue, { color: color.neutral700 }]} selectable>
             {API_URL}

@@ -1,11 +1,27 @@
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useSession } from '@/auth/session';
+import { localBibleChapter, localEgwChapter, localHymn, localHymns } from '@/packs/local';
+import { usePacksStore } from '@/packs/store';
 
 import { api, apiGet, type FeedPage, type Pack, type Schemas } from './client';
 
 const FEED_PAGE = 10;
 const LONG = 24 * 60 * 60_000; // licensed content changes rarely
+
+/** Offline-first: read the installed pack, else the API. Pack version is part of the key so updates refresh. */
+const usePacksVersion = () => usePacksStore((s) => Object.values(s.installed).map((p) => `${p.slug}@${p.version}`).join(','));
+
+/** Network first (fresh data, audio URLs), falling back to the pack when offline or the request fails. */
+async function networkFirst<T>(remote: () => Promise<T>, local: () => T | null): Promise<T> {
+  try {
+    return await remote();
+  } catch (e) {
+    const l = local();
+    if (l) return l;
+    throw e;
+  }
+}
 
 export function useFeed(lang: string) {
   return useInfiniteQuery({
@@ -26,9 +42,12 @@ export function usePacks(lang: string) {
 
 // ── Bible ────────────────────────────────────────────────
 export function useBibleChapter(translation: string, book: string, chapter: number, parallel?: string | null) {
+  const packsVersion = usePacksVersion();
   return useQuery({
-    queryKey: ['bible', translation, book, chapter, parallel ?? null],
-    queryFn: () => apiGet<Schemas['BibleChapter']>(`/v1/bible/${translation}/${book}/${chapter}`, { parallel }),
+    queryKey: ['bible', translation, book, chapter, parallel ?? null, packsVersion],
+    queryFn: () =>
+      localBibleChapter(translation, book, chapter, parallel) ??
+      apiGet<Schemas['BibleChapter']>(`/v1/bible/${translation}/${book}/${chapter}`, { parallel }),
     staleTime: LONG,
     placeholderData: keepPreviousData,
   });
@@ -45,9 +64,10 @@ export function useEgwBooks(lang: string) {
 }
 
 export function useEgwChapter(edition: number, n: number, parallel?: string | null) {
+  const packsVersion = usePacksVersion();
   return useQuery({
-    queryKey: ['egw', edition, n, parallel ?? null],
-    queryFn: () => apiGet<Schemas['EgwChapter']>(`/v1/egw/${edition}/chapters/${n}`, { parallel }),
+    queryKey: ['egw', edition, n, parallel ?? null, packsVersion],
+    queryFn: () => localEgwChapter(edition, n, parallel) ?? apiGet<Schemas['EgwChapter']>(`/v1/egw/${edition}/chapters/${n}`, { parallel }),
     staleTime: LONG,
     placeholderData: keepPreviousData,
   });
@@ -84,7 +104,14 @@ export function useHymnals() {
 export function useHymns(code: string, q?: string) {
   return useQuery({
     queryKey: ['hymns', code, q ?? ''],
-    queryFn: () => apiGet<{ hymns: Schemas['HymnSummary'][] }>(`/v1/hymnals/${code}/hymns`, { q }),
+    queryFn: () =>
+      networkFirst(
+        () => apiGet<{ hymns: Schemas['HymnSummary'][] }>(`/v1/hymnals/${code}/hymns`, { q }),
+        () => {
+          const hymns = localHymns(code, q);
+          return hymns ? { hymns } : null;
+        },
+      ),
     select: (d) => d.hymns,
     staleTime: LONG,
     placeholderData: keepPreviousData,
@@ -95,7 +122,7 @@ export function useHymns(code: string, q?: string) {
 export function useHymn(code: string, number: number) {
   return useQuery({
     queryKey: ['hymn', code, number],
-    queryFn: () => apiGet<Schemas['Hymn']>(`/v1/hymnals/${code}/hymns/${number}`),
+    queryFn: () => networkFirst(() => apiGet<Schemas['Hymn']>(`/v1/hymnals/${code}/hymns/${number}`), () => localHymn(code, number)),
     staleTime: LONG,
   });
 }
