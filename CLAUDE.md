@@ -14,7 +14,7 @@ design specs `../Neno/docs/design/README.md`, contract `../Neno/api/openapi.yaml
 - `src/i18n/` — **Swahili first**: add strings to `sw.json`, then `en.json`, `fr.json`. No hard-coded UI strings.
 
 ## Commands
-- `npx expo start` — Expo Go works (no custom native modules yet).
+- `npx expo start` targets the dev build (expo-dev-client); `npx expo start --go` for Expo Go (all modules are Expo SDK ones).
 - `npm run gen:api` after the API contract changes. `npx tsc --noEmit` + `npx expo lint` before commits.
 
 ## API
