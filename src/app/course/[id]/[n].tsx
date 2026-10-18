@@ -9,7 +9,7 @@ import { useCourseLesson } from '@/api/queries';
 import { Blueprint } from '@/components/Blueprint';
 import { QueryState, ScreenHeader, SectionLabel } from '@/components/controls';
 import { PrimaryButton, Stripes } from '@/components/ui';
-import { parseOsis, PRIMARY_TRANSLATION } from '@/features/bible/store';
+import { parseOsis, translationFor } from '@/features/bible/store';
 import { useBookName } from '@/features/bible/books';
 import { useSettings } from '@/store/settings';
 import { useUserData } from '@/store/userData';
@@ -119,7 +119,7 @@ function Question({ q }: { q: Schemas['QuizQuestion'] }) {
 function Explain({ refOsis, text }: { refOsis?: string; text?: string }) {
   const uiLang = useSettings((s) => s.uiLang);
   const parsed = refOsis ? parseOsis(refOsis) : null;
-  const name = useBookName(PRIMARY_TRANSLATION[uiLang] ?? 'SUV', parsed?.book ?? '');
+  const name = useBookName(translationFor(uiLang), parsed?.book ?? '');
   return (
     <Blueprint style={styles.explain}>
       {parsed ? (

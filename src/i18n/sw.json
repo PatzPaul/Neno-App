@@ -43,9 +43,11 @@
     }
   },
   "packs": {
-    "bible-SUV": "Biblia · SUV (maandishi)",
     "hymnal-NZK": "Nyimbo za Kristo",
-    "egw-sw-SC": "Njia Salama · EGW"
+    "egw-sw-SC": "Njia Salama · EGW",
+    "bible-NENO": "Biblia · Neno (maandishi)",
+    "bible-KJV": "Biblia · KJV (Kiingereza)",
+    "bible-LSG": "Biblia · Louis Segond (Kifaransa)"
   },
   "comingSoon": "Inakuja hivi karibuni",
   "me": {

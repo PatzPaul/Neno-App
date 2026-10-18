@@ -43,9 +43,11 @@
     }
   },
   "packs": {
-    "bible-SUV": "Bible · SUV (texte)",
     "hymnal-NZK": "Nyimbo za Kristo",
-    "egw-sw-SC": "Le Meilleur Chemin · EGW"
+    "egw-sw-SC": "Le Meilleur Chemin · EGW",
+    "bible-NENO": "Bible · Neno swahili (texte)",
+    "bible-KJV": "Bible · KJV (anglais)",
+    "bible-LSG": "Bible · Louis Segond (texte)"
   },
   "comingSoon": "Bientôt disponible",
   "me": {

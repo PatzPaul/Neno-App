@@ -21,6 +21,11 @@ design specs `../Neno/docs/design/README.md`, contract `../Neno/api/openapi.yaml
 - `EXPO_PUBLIC_API_URL` in `.env` → `http://159.65.58.51:8090` (plain HTTP for now). app.json allows cleartext
   (Android `usesCleartextTraffic`, iOS `NSAllowsArbitraryLoads`) — remove both once the API is on HTTPS.
 
+## Bible text
+- Translations per UI language in `src/features/bible/store.ts`: sw `NENO` (Biblica Open Kiswahili, CC BY-SA 4.0 —
+  the reader must keep showing the attribution from `GET /v1/bible/translations`), en `KJV`, fr `LSG`. SUV replaces
+  NENO once licensed (change `PRIMARY_TRANSLATION` only).
+
 ## Offline & sync
 - Packs (`src/packs/`): manifest `GET /v1/packs`, files `GET /packs/<slug>-v<n>.sqlite`, verified by sha256, stored in
   documents/packs. Readers in `src/packs/local.ts` match the pack schemas documented in `../Neno/CLAUDE.md`.

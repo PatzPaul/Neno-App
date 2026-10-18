@@ -1,52 +1,33 @@
-import { router } from "expo-router";
-import { ChevronLeft, ChevronRight, Search, Type } from "lucide-react-native";
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import {
-  Pressable,
-  ScrollView,
-  Share,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { router } from 'expo-router';
+import { ChevronLeft, ChevronRight, Search, Type } from 'lucide-react-native';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ApiError } from "@/api/client";
-import { useBibleChapter } from "@/api/queries";
-import { QueryState, Segmented } from "@/components/controls";
-import { Tag } from "@/components/ui";
-import { neighbour, useBibleBooks } from "@/features/bible/books";
-import {
-  parallelFor,
-  PRIMARY_TRANSLATION,
-  useReader,
-} from "@/features/bible/store";
-import { useSettings } from "@/store/settings";
-import { useUserData } from "@/store/userData";
-import { color, font, hit, icon, tracking, type } from "@/theme";
-
-const LANG_NAME: Record<string, string> = { SUV: "Kiswahili", KJV: "English" };
+import { ApiError } from '@/api/client';
+import { useBibleChapter, useBibleTranslations } from '@/api/queries';
+import { QueryState, Segmented } from '@/components/controls';
+import { Tag } from '@/components/ui';
+import { neighbour, useBibleBooks } from '@/features/bible/books';
+import { parallelFor, TRANSLATION_LANG_NAME, translationFor, useReader } from '@/features/bible/store';
+import { useSettings } from '@/store/settings';
+import { useUserData } from '@/store/userData';
+import { color, font, hit, icon, tracking, type } from '@/theme';
 
 /** Screen 1e — Bible reader. */
 export default function BibleScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { uiLang, textScale, set: setSettings } = useSettings();
+  const { uiLang, parallelLang, textScale, set: setSettings } = useSettings();
   const { book, chapter, parallelOn, goTo, setParallel } = useReader();
-  const translation = PRIMARY_TRANSLATION[uiLang] ?? "SUV";
-  const parallel = parallelFor(translation);
+  const translation = translationFor(uiLang);
+  const parallel = parallelFor(translation, parallelLang);
 
   const books = useBibleBooks(translation);
-  const q = useBibleChapter(
-    translation,
-    book,
-    chapter,
-    parallelOn ? parallel : null,
-  );
+  const q = useBibleChapter(translation, book, chapter, parallelOn ? parallel : null);
   const notFound = q.error instanceof ApiError && q.error.status === 404;
-  const bookName =
-    books.data?.find((b) => b.osis === book)?.name ?? q.data?.book_name ?? book;
+  const bookName = books.data?.find((b) => b.osis === book)?.name ?? q.data?.book_name ?? book;
 
   const [selected, setSelected] = useState<number[]>([]);
   const marks = useUserData((s) => s.marks);
@@ -58,22 +39,13 @@ export default function BibleScreen() {
     const prefix = `${book}.${chapter}.`;
     const m = new Map<string, string>();
     for (const mk of Object.values(marks))
-      if (
-        mk.kind === "highlight" &&
-        mk.target === "verse" &&
-        !mk.deleted_at &&
-        mk.target_ref.startsWith(prefix)
-      )
-        m.set(mk.target_ref, mk.id);
+      if (mk.kind === 'highlight' && mk.target === 'verse' && !mk.deleted_at && mk.target_ref.startsWith(prefix)) m.set(mk.target_ref, mk.id);
     return m;
   }, [marks, book, chapter]);
 
   const verses = q.data?.verses ?? [];
-  const selRefs = verses
-    .filter((v) => selected.includes(v.verse))
-    .map((v) => v.osis_ref);
-  const allHighlighted =
-    selRefs.length > 0 && selRefs.every((r) => highlights.has(r));
+  const selRefs = verses.filter((v) => selected.includes(v.verse)).map((v) => v.osis_ref);
+  const allHighlighted = selRefs.length > 0 && selRefs.every((r) => highlights.has(r));
   const lastSelected = selected.length ? Math.max(...selected) : null;
 
   const go = (dir: 1 | -1) => {
@@ -90,10 +62,10 @@ export default function BibleScreen() {
       if (allHighlighted && id) removeMark(id);
       else if (!id)
         putMark({
-          kind: "highlight",
-          target: "verse",
+          kind: 'highlight',
+          target: 'verse',
           target_ref: ref,
-          color: "accent",
+          color: 'accent',
         });
     }
     setSelected([]);
@@ -103,11 +75,8 @@ export default function BibleScreen() {
     const text = verses
       .filter((v) => selected.includes(v.verse))
       .map((v) => `${v.verse} ${v.text}`)
-      .join("\n");
-    const range =
-      selected.length > 1
-        ? `${Math.min(...selected)}–${Math.max(...selected)}`
-        : String(selected[0]);
+      .join('\n');
+    const range = selected.length > 1 ? `${Math.min(...selected)}–${Math.max(...selected)}` : String(selected[0]);
     void Share.share({
       message: `${text}\n— ${bookName} ${chapter}:${range} (${translation})`,
     });
@@ -116,8 +85,7 @@ export default function BibleScreen() {
   const verseSize = type.verse * textScale;
   const cycleTextSize = () =>
     setSettings({
-      textScale:
-        textScale >= 1.75 ? 1 : Math.round((textScale + 0.25) * 100) / 100,
+      textScale: textScale >= 1.75 ? 1 : Math.round((textScale + 0.25) * 100) / 100,
     });
 
   return (
@@ -125,95 +93,53 @@ export default function BibleScreen() {
       <View style={styles.header}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={t("bible.books")}
-          onPress={() => router.push("/bible-books")}
-          style={styles.titleBtn}
-        >
+          accessibilityLabel={t('bible.books')}
+          onPress={() => router.push('/bible-books')}
+          style={styles.titleBtn}>
           <Text style={styles.title} numberOfLines={1}>
             {bookName} {chapter}
           </Text>
         </Pressable>
         <Tag label={translation} variant="outline" />
         <View style={{ flex: 1 }} />
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t("common.textSize")}
-          onPress={cycleTextSize}
-          style={styles.iconBtn}
-        >
-          <Type
-            size={icon.rail}
-            strokeWidth={icon.strokeWidth}
-            color={color.text}
-          />
+        <Pressable accessibilityRole="button" accessibilityLabel={t('common.textSize')} onPress={cycleTextSize} style={styles.iconBtn}>
+          <Type size={icon.rail} strokeWidth={icon.strokeWidth} color={color.text} />
         </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t("common.search")}
-          onPress={() => router.push("/search")}
-          style={styles.iconBtn}
-        >
-          <Search
-            size={icon.rail}
-            strokeWidth={icon.strokeWidth}
-            color={color.text}
-          />
+        <Pressable accessibilityRole="button" accessibilityLabel={t('common.search')} onPress={() => router.push('/search')} style={styles.iconBtn}>
+          <Search size={icon.rail} strokeWidth={icon.strokeWidth} color={color.text} />
         </Pressable>
       </View>
 
       <View style={{ paddingHorizontal: 16, paddingTop: 10 }}>
         <Segmented
-          value={parallelOn ? "par" : "single"}
-          onChange={(v) => setParallel(v === "par")}
+          value={parallelOn ? 'par' : 'single'}
+          onChange={(v) => setParallel(v === 'par')}
           options={[
-            { value: "single", label: LANG_NAME[translation] ?? translation },
             {
-              value: "par",
-              label: `${LANG_NAME[translation] ?? translation} + ${LANG_NAME[parallel] ?? parallel}`,
+              value: 'single',
+              label: TRANSLATION_LANG_NAME[translation] ?? translation,
+            },
+            {
+              value: 'par',
+              label: `${TRANSLATION_LANG_NAME[translation] ?? translation} + ${TRANSLATION_LANG_NAME[parallel] ?? parallel}`,
             },
           ]}
         />
       </View>
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.body}>
-        <QueryState
-          loading={q.isPending}
-          error={q.isError && !notFound}
-          onRetry={() => q.refetch()}
-        />
-        {notFound ? (
-          <Text style={styles.empty}>{t("bible.noText")}</Text>
-        ) : null}
+        <QueryState loading={q.isPending} error={q.isError && !notFound} onRetry={() => q.refetch()} />
+        {notFound ? <Text style={styles.empty}>{t('bible.noText')}</Text> : null}
         {verses.map((v) => {
           const sel = selected.includes(v.verse);
           const hl = highlights.has(v.osis_ref);
           return (
-            <View
-              key={v.osis_ref}
-              style={[
-                styles.verse,
-                (sel || hl) && { backgroundColor: color.accent100 },
-                sel && styles.verseSel,
-              ]}
-            >
+            <View key={v.osis_ref} style={[styles.verse, (sel || hl) && { backgroundColor: color.accent100 }, sel && styles.verseSel]}>
               <Pressable
                 accessibilityRole="button"
                 accessibilityState={{ selected: sel }}
-                onPress={() =>
-                  setSelected((s) =>
-                    s.includes(v.verse)
-                      ? s.filter((x) => x !== v.verse)
-                      : [...s, v.verse],
-                  )
-                }
-              >
-                <Text
-                  style={[
-                    styles.verseText,
-                    { fontSize: verseSize, lineHeight: verseSize * 1.6 },
-                  ]}
-                  maxFontSizeMultiplier={2}
-                >
+                onPress={() => setSelected((s) => (s.includes(v.verse) ? s.filter((x) => x !== v.verse) : [...s, v.verse]))}>
+                <Text style={[styles.verseText, { fontSize: verseSize, lineHeight: verseSize * 1.6 }]} maxFontSizeMultiplier={2}>
                   <Text style={styles.verseNum}>{v.verse} </Text>
                   {v.text}
                 </Text>
@@ -226,29 +152,21 @@ export default function BibleScreen() {
                         lineHeight: type.body * textScale * 1.5,
                       },
                     ]}
-                    maxFontSizeMultiplier={2}
-                  >
+                    maxFontSizeMultiplier={2}>
                     {v.parallel_text}
                   </Text>
                 ) : null}
               </Pressable>
               {v.verse === lastSelected ? (
                 <View style={styles.actions}>
+                  <ActionTag label={allHighlighted ? t('bible.unhighlight') : t('bible.highlight')} onPress={toggleHighlight} />
                   <ActionTag
-                    label={
-                      allHighlighted
-                        ? t("bible.unhighlight")
-                        : t("bible.highlight")
-                    }
-                    onPress={toggleHighlight}
-                  />
-                  <ActionTag
-                    label={t("bible.note")}
+                    label={t('bible.note')}
                     onPress={() => {
                       router.push({
-                        pathname: "/note-edit",
+                        pathname: '/note-edit',
                         params: {
-                          target: "verse",
+                          target: 'verse',
                           ref: v.osis_ref,
                           label: `${bookName} ${chapter}:${v.verse}`,
                         },
@@ -256,16 +174,16 @@ export default function BibleScreen() {
                       setSelected([]);
                     }}
                   />
-                  <ActionTag label={t("bible.share")} onPress={share} />
+                  <ActionTag label={t('bible.share')} onPress={share} />
                   <ActionTag
                     outline
-                    label={t("bible.findEgw")}
+                    label={t('bible.findEgw')}
                     onPress={() =>
                       router.push({
-                        pathname: "/search",
+                        pathname: '/search',
                         params: {
                           q: `${bookName} ${chapter}:${v.verse}`,
-                          scope: "egw",
+                          scope: 'egw',
                         },
                       })
                     }
@@ -275,72 +193,52 @@ export default function BibleScreen() {
             </View>
           );
         })}
+        {verses.length > 0 ? <Attribution codes={parallelOn && q.data?.parallel ? [translation, q.data.parallel] : [translation]} /> : null}
       </ScrollView>
 
       <View style={styles.footer}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t("bible.prev")}
-          onPress={() => go(-1)}
-          style={styles.navBtn}
-        >
-          <ChevronLeft
-            size={icon.rail}
-            strokeWidth={icon.strokeWidth}
-            color={color.text}
-          />
+        <Pressable accessibilityRole="button" accessibilityLabel={t('bible.prev')} onPress={() => go(-1)} style={styles.navBtn}>
+          <ChevronLeft size={icon.rail} strokeWidth={icon.strokeWidth} color={color.text} />
         </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => router.push("/bible-books")}
-          style={{ flex: 1, alignItems: "center" }}
-        >
+        <Pressable accessibilityRole="button" onPress={() => router.push('/bible-books')} style={{ flex: 1, alignItems: 'center' }}>
           <Text style={styles.footerText}>
             {bookName} {chapter}
           </Text>
         </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t("bible.next")}
-          onPress={() => go(1)}
-          style={styles.navBtn}
-        >
-          <ChevronRight
-            size={icon.rail}
-            strokeWidth={icon.strokeWidth}
-            color={color.text}
-          />
+        <Pressable accessibilityRole="button" accessibilityLabel={t('bible.next')} onPress={() => go(1)} style={styles.navBtn}>
+          <ChevronRight size={icon.rail} strokeWidth={icon.strokeWidth} color={color.text} />
         </Pressable>
       </View>
     </View>
   );
 }
 
-function ActionTag({
-  label,
-  onPress,
-  outline,
-}: {
-  label: string;
-  onPress: () => void;
-  outline?: boolean;
-}) {
+function ActionTag({ label, onPress, outline }: { label: string; onPress: () => void; outline?: boolean }) {
   return (
-    <Pressable
-      accessibilityRole="button"
-      onPress={onPress}
-      hitSlop={{ top: 8, bottom: 8 }}
-    >
-      <Tag label={label} variant={outline ? "outline" : "accent"} />
+    <Pressable accessibilityRole="button" onPress={onPress} hitSlop={{ top: 8, bottom: 8 }}>
+      <Tag label={label} variant={outline ? 'outline' : 'accent'} />
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
+  attribution: {
+    marginTop: 24,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: color.divider,
+    gap: 6,
+  },
+  attributionText: {
+    fontFamily: font.body,
+    fontSize: type.caption,
+    lineHeight: type.caption * 1.5,
+    color: color.neutral700,
+  },
   screen: { flex: 1, backgroundColor: color.bg },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
     paddingLeft: 16,
     paddingRight: 6,
@@ -349,20 +247,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: color.divider,
   },
-  titleBtn: { minHeight: hit.min, justifyContent: "center", flexShrink: 1 },
+  titleBtn: { minHeight: hit.min, justifyContent: 'center', flexShrink: 1 },
   title: { fontFamily: font.heading, fontSize: type.h4, color: color.text },
   iconBtn: {
     width: hit.min,
     height: hit.min,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   body: { paddingHorizontal: 18, paddingTop: 14, paddingBottom: 20, gap: 4 },
   empty: {
     fontFamily: font.body,
     fontSize: type.bodyL,
     color: color.neutral700,
-    textAlign: "center",
+    textAlign: 'center',
     padding: 24,
   },
   verse: { paddingVertical: 8, paddingHorizontal: 10, marginHorizontal: -10 },
@@ -378,10 +276,10 @@ const styles = StyleSheet.create({
     color: color.accent700,
   },
   parallel: { fontFamily: font.body, color: color.neutral700, marginTop: 4 },
-  actions: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 10 },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 10 },
   footer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 8,
     borderTopWidth: 1,
     borderTopColor: color.divider,
@@ -390,14 +288,30 @@ const styles = StyleSheet.create({
   navBtn: {
     width: hit.min,
     height: hit.min,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   footerText: {
     fontFamily: font.headingRegular,
     fontSize: type.bodyL,
     letterSpacing: tracking(0.08, type.bodyL),
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
     color: color.accent700,
   },
 });
+
+/** Licence notice for the translations on screen (required by CC BY-SA for Neno). */
+function Attribution({ codes }: { codes: string[] }) {
+  const translations = useBibleTranslations();
+  const shown = (translations.data ?? []).filter((tr) => codes.includes(tr.code)).sort((a, b) => codes.indexOf(a.code) - codes.indexOf(b.code));
+  if (!shown.length) return null;
+  return (
+    <View style={styles.attribution}>
+      {shown.map((tr) => (
+        <Text key={tr.code} style={styles.attributionText}>
+          {tr.attribution}
+        </Text>
+      ))}
+    </View>
+  );
+}

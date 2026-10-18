@@ -28,7 +28,13 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Offline pack manifest (latest version per slug) */
+        /**
+         * Offline pack manifest (latest version per slug)
+         * @description Each pack is a read-only SQLite file built by `cmd/packs` and served as an immutable static file at
+         *     `GET /packs/{slug}-v{version}.sqlite` (outside this router; supports Range and If-None-Match).
+         *     Verify downloads against `sha256`. Slugs: `bible-<TRANSLATION>`, `egw-<lang>-<BOOK>`, `hymnal-<CODE>`.
+         *     Every file has `meta(key, value)` with slug, kind, lang, version, built_at, content_hash.
+         */
         get: operations["listPacks"];
         put?: never;
         post?: never;
@@ -64,6 +70,23 @@ export interface paths {
         };
         /** One feed item plus its "Soma pamoja" links */
         get: operations["getFeedItem"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/bible/translations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Available Bible translations with the licence and attribution the app must display */
+        get: operations["listBibleTranslations"];
         put?: never;
         post?: never;
         delete?: never;
@@ -690,6 +713,19 @@ export interface components {
             answers: components["schemas"]["UserAnswer"][];
             progress: components["schemas"]["UserProgress"][];
         };
+        BibleTranslation: {
+            /** @example NENO */
+            code: string;
+            /** @example sw */
+            lang: string;
+            /** @example Biblia Takatifu (Neno) */
+            name: string;
+            /** @example CC BY-SA 4.0 */
+            license: string;
+            license_url?: string;
+            /** @description Must be shown wherever the text is displayed. */
+            attribution: string;
+        };
         BibleBook: {
             /** @example JHN */
             osis: string;
@@ -849,6 +885,31 @@ export interface operations {
                 };
             };
             404: components["responses"]["NotFound"];
+        };
+    };
+    listBibleTranslations: {
+        parameters: {
+            query?: {
+                /** @description Only translations in this language (default all). */
+                lang?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Translations that have text */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        translations: components["schemas"]["BibleTranslation"][];
+                    };
+                };
+            };
         };
     };
     listBibleBooks: {

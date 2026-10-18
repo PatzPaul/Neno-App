@@ -43,9 +43,11 @@
     }
   },
   "packs": {
-    "bible-SUV": "Bible · SUV (text)",
     "hymnal-NZK": "Nyimbo za Kristo",
-    "egw-sw-SC": "Steps to Christ · EGW"
+    "egw-sw-SC": "Steps to Christ · EGW",
+    "bible-NENO": "Bible · Swahili Neno (text)",
+    "bible-KJV": "Bible · KJV (text)",
+    "bible-LSG": "Bible · Louis Segond (French)"
   },
   "comingSoon": "Coming soon",
   "me": {

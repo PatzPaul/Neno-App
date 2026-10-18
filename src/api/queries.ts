@@ -10,7 +10,12 @@ const FEED_PAGE = 10;
 const LONG = 24 * 60 * 60_000; // licensed content changes rarely
 
 /** Offline-first: read the installed pack, else the API. Pack version is part of the key so updates refresh. */
-const usePacksVersion = () => usePacksStore((s) => Object.values(s.installed).map((p) => `${p.slug}@${p.version}`).join(','));
+const usePacksVersion = () =>
+  usePacksStore((s) =>
+    Object.values(s.installed)
+      .map((p) => `${p.slug}@${p.version}`)
+      .join(','),
+  );
 
 /** Network first (fresh data, audio URLs), falling back to the pack when offline or the request fails. */
 async function networkFirst<T>(remote: () => Promise<T>, local: () => T | null): Promise<T> {
@@ -26,7 +31,12 @@ async function networkFirst<T>(remote: () => Promise<T>, local: () => T | null):
 export function useFeed(lang: string) {
   return useInfiniteQuery({
     queryKey: ['feed', lang],
-    queryFn: ({ pageParam }) => apiGet<FeedPage>('/v1/feed', { lang, limit: FEED_PAGE, cursor: pageParam }),
+    queryFn: ({ pageParam }) =>
+      apiGet<FeedPage>('/v1/feed', {
+        lang,
+        limit: FEED_PAGE,
+        cursor: pageParam,
+      }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (last) => last.next_cursor,
   });
@@ -53,6 +63,16 @@ export function useBibleChapter(translation: string, book: string, chapter: numb
   });
 }
 
+/** Licence + attribution per translation; shown under every chapter (CC BY-SA requires it). */
+export function useBibleTranslations() {
+  return useQuery({
+    queryKey: ['bible-translations'],
+    queryFn: () => apiGet<{ translations: Schemas['BibleTranslation'][] }>('/v1/bible/translations'),
+    select: (d) => d.translations,
+    staleTime: LONG,
+  });
+}
+
 // ── EGW ──────────────────────────────────────────────────
 export function useEgwBooks(lang: string) {
   return useQuery({
@@ -67,7 +87,11 @@ export function useEgwChapter(edition: number, n: number, parallel?: string | nu
   const packsVersion = usePacksVersion();
   return useQuery({
     queryKey: ['egw', edition, n, parallel ?? null, packsVersion],
-    queryFn: () => localEgwChapter(edition, n, parallel) ?? apiGet<Schemas['EgwChapter']>(`/v1/egw/${edition}/chapters/${n}`, { parallel }),
+    queryFn: () =>
+      localEgwChapter(edition, n, parallel) ??
+      apiGet<Schemas['EgwChapter']>(`/v1/egw/${edition}/chapters/${n}`, {
+        parallel,
+      }),
     staleTime: LONG,
     placeholderData: keepPreviousData,
   });
@@ -122,7 +146,11 @@ export function useHymns(code: string, q?: string) {
 export function useHymn(code: string, number: number) {
   return useQuery({
     queryKey: ['hymn', code, number],
-    queryFn: () => networkFirst(() => apiGet<Schemas['Hymn']>(`/v1/hymnals/${code}/hymns/${number}`), () => localHymn(code, number)),
+    queryFn: () =>
+      networkFirst(
+        () => apiGet<Schemas['Hymn']>(`/v1/hymnals/${code}/hymns/${number}`),
+        () => localHymn(code, number),
+      ),
     staleTime: LONG,
   });
 }
@@ -131,7 +159,11 @@ export function useHymn(code: string, number: number) {
 export function useSabbathSchool(lang: string, date?: string) {
   return useQuery({
     queryKey: ['ss', lang, date ?? 'today'],
-    queryFn: () => apiGet<Schemas['SabbathSchoolWeek']>('/v1/sabbath-school/current', { lang, date }),
+    queryFn: () =>
+      apiGet<Schemas['SabbathSchoolWeek']>('/v1/sabbath-school/current', {
+        lang,
+        date,
+      }),
     staleTime: 60 * 60_000,
   });
 }

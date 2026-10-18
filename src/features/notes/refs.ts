@@ -1,6 +1,6 @@
 import type { Schemas } from '@/api/client';
 
-// OSIS/USFM book codes in canonical order with Swahili (SUV) and English names — reference data for labels
+// OSIS/USFM book codes in canonical order with Swahili and English names — reference data for labels
 // only; verse text always comes from the licensed translation.
 const BOOKS: [string, string, string][] = [
   ['GEN', 'Mwanzo', 'Genesis'], ['EXO', 'Kutoka', 'Exodus'], ['LEV', 'Mambo ya Walawi', 'Leviticus'],

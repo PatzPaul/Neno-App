@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { QueryState, ScreenHeader, SectionLabel } from '@/components/controls';
 import { useBibleBooks, type BibleBook } from '@/features/bible/books';
-import { PRIMARY_TRANSLATION, useReader } from '@/features/bible/store';
+import { translationFor, useReader } from '@/features/bible/store';
 import { useSettings } from '@/store/settings';
 import { color, font, hit, space, type } from '@/theme';
 
@@ -15,7 +15,7 @@ export default function BibleBooksScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const uiLang = useSettings((s) => s.uiLang);
-  const translation = PRIMARY_TRANSLATION[uiLang] ?? 'SUV';
+  const translation = translationFor(uiLang);
   const books = useBibleBooks(translation);
   const { book: current, goTo } = useReader();
   const [open, setOpen] = useState<string | null>(current);
